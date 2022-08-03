@@ -14,11 +14,12 @@ namespace FileSystemStatsService.Service
         {
             _repository = repository;
         }
+
         public int Start(string driveLetter)
         {
             var item = _repository.GetByName(driveLetter);
             if (item is Folder)
-                return _repository.GetRootItem().GetInnerItemsCount();
+                return item.GetInnerItemsCount();
             return 0;
         }
 

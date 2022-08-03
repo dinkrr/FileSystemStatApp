@@ -1,4 +1,5 @@
 ﻿using FileSystemStatsService.Models;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FileSystemStatsService.Repository
@@ -37,9 +38,29 @@ namespace FileSystemStatsService.Repository
 
         public IDirectoryItem GetByName(string name)
         {
-            if(_rootDirectoryItem.Name == name)
+            if (_rootDirectoryItem.Name == name)
                 return GetRootItem();
-            return _rootDirectoryItem.Items.Where(item => item.Name == name).FirstOrDefault();
+            return GetItem(_rootDirectoryItem.Items, name);
         }
+
+        private IDirectoryItem GetItem(List<IDirectoryItem> items, string name) //File3
+        {
+            //var item = items.Where(item => item.Name == name).FirstOrDefault();
+            //if(item == null && item is Folder)
+            //    return GetItem((item as Folder).Items, name);
+            //return item;
+
+            foreach (IDirectoryItem item in items) //file1, file2, folder2 --> file3
+            {
+                if(item.Name == name)
+                    return item;
+                if(item is Folder)
+                    return GetItem(((Folder)item).Items, name);   
+            }
+            return null;
+        }
+
+        //If item is in the Items of rootDirectory, then return using where condition,
+        //if 
     }
 }

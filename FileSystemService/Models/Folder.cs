@@ -30,11 +30,12 @@ namespace FileSystemStatsService.Models
         public int GetInnerItemsCount()
         {
             //Main crux of Composite Pattern
+            int count = 0;
             foreach(var item in Items)
             {
-                item.GetInnerItemsCount();
+                count += item.GetInnerItemsCount();
             }
-            return Items.Count;
+            return Items.Count + count;
         }
     }
 }
