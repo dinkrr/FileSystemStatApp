@@ -38,29 +38,42 @@ namespace FileSystemStatsService.Repository
 
         public IDirectoryItem GetByName(string name)
         {
-            if (_rootDirectoryItem.Name == name)
-                return GetRootItem();
-            return GetItem(_rootDirectoryItem.Items, name);
+            return GetItem(_rootDirectoryItem, name);
         }
 
-        private IDirectoryItem GetItem(List<IDirectoryItem> items, string name) //File3
+        private IDirectoryItem GetItem(IDirectoryItem directoryItem, string name)
         {
-            //var item = items.Where(item => item.Name == name).FirstOrDefault();
-            //if(item == null && item is Folder)
-            //    return GetItem((item as Folder).Items, name);
-            //return item;
-
-            foreach (IDirectoryItem item in items) //file1, file2, folder2 --> file3
+            if (directoryItem.Name == name)
+                return directoryItem;
+            if (directoryItem is Folder)
             {
-                if(item.Name == name)
-                    return item;
-                if(item is Folder)
-                    return GetItem(((Folder)item).Items, name);   
+                var folderItem = directoryItem as Folder;
+                foreach (IDirectoryItem item in folderItem.Items)
+                {
+                    var innerItem = GetItem(item, name);
+                    if (innerItem != null)
+                    {
+                        return innerItem;
+                    }
+                }
             }
             return null;
         }
 
-        //If item is in the Items of rootDirectory, then return using where condition,
-        //if 
+        public IEnumerable<string> GetByLevel(int level)
+        {
+            List<string> list = new List<string>();
+            if (_rootDirectoryItem.Level == level)
+                list.Add(_rootDirectoryItem.Name);
+            _rootDirectoryItem.Items.ForEach(item =>
+            {
+                if(item.Level == level)
+                {
+                    list.Add(item.Name);
+                }
+            });
+
+            return list;
+        }
     }
 }

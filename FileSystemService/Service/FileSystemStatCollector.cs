@@ -18,6 +18,7 @@ namespace FileSystemStatsService.Service
         public int Start(string driveLetter)
         {
             var item = _repository.GetByName(driveLetter);
+            Console.WriteLine($"Level of " + item.Name + " is " + item.Level);
             if (item is Folder)
                 return item.GetInnerItemsCount();
             return 0;
@@ -25,7 +26,7 @@ namespace FileSystemStatsService.Service
 
         public IEnumerable<string> GetByLevel(int level = 0)
         {
-            throw new NotImplementedException();
+            return _repository.GetByLevel(level);
         }
 
         public IEnumerable<string> GetUniqueNamesByLevel(int level = 0)

@@ -11,8 +11,11 @@ namespace FileSystemStatApp
         {
             IFileSystemStatCollector collector = new FileSystemStatCollector(new FileSystemDataRepository());
 
-            Console.WriteLine(collector.Start("Folder2"));
-
+            //Console.WriteLine(collector.Start("Folder1"));
+            foreach(var item in collector.GetByLevel(2))
+            {
+                Console.WriteLine(item);
+            }
             Console.ReadKey();
         }
     }
