@@ -37,7 +37,8 @@ namespace FileSystemStatsService.Service
 
         public IEnumerable<string> GetUniqueNamesBy(IEnumerable<string> nameFilter, bool isReadOnly)
         {
-            throw new NotImplementedException();
+            var items = _repository.GetByFilter(nameFilter, isReadOnly);
+            return items?.Distinct();
         }
     }
 }
