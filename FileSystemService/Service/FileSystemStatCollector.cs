@@ -3,6 +3,7 @@ using FileSystemStatsService.Models;
 using FileSystemStatsService.Repository;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FileSystemStatsService.Service
 {
@@ -14,22 +15,24 @@ namespace FileSystemStatsService.Service
         {
             _repository = repository;
         }
+
         public int Start(string driveLetter)
         {
             var item = _repository.GetByName(driveLetter);
             if (item is Folder)
-                return _repository.GetRootItem().GetInnerItemsCount();
+                return item.GetInnerItemsCount();
             return 0;
         }
 
         public IEnumerable<string> GetByLevel(int level = 0)
         {
-            throw new NotImplementedException();
+            return _repository.GetByLevel(level);
         }
 
         public IEnumerable<string> GetUniqueNamesByLevel(int level = 0)
         {
-            throw new NotImplementedException();
+            var items = _repository.GetByLevel(level);
+            return items?.Distinct();
         }
 
         public IEnumerable<string> GetUniqueNamesBy(IEnumerable<string> nameFilter, bool isReadOnly)

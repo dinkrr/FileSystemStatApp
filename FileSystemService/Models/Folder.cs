@@ -6,6 +6,7 @@ namespace FileSystemStatsService.Models
     public class Folder : IDirectoryItem
     {
         public string Name { get; set; }
+        public int Level { get; set; } = 0;
         public List<IDirectoryItem> Items { get; set; }
 
         public Folder(string name)
@@ -18,6 +19,9 @@ namespace FileSystemStatsService.Models
         {
             if (!Items.Contains(item))
             {
+                item.Level++;
+                if(item is Folder)
+                    (item as Folder).Items.ForEach(x => x.Level++);
                 Items.Add(item);
             }
         }
@@ -29,12 +33,12 @@ namespace FileSystemStatsService.Models
 
         public int GetInnerItemsCount()
         {
-            //Main crux of Composite Pattern
+            int count = 0;
             foreach(var item in Items)
             {
-                item.GetInnerItemsCount();
+                count += item.GetInnerItemsCount();
             }
-            return Items.Count;
+            return Items.Count + count;
         }
     }
 }

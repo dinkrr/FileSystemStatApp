@@ -1,4 +1,5 @@
 ﻿using FileSystemStatsService.Models;
+using System.Collections.Generic;
 
 namespace FileSystemStatsService.Repository
 {
@@ -6,5 +7,6 @@ namespace FileSystemStatsService.Repository
     {
         Folder GetRootItem();
         IDirectoryItem GetByName(string name);
+        IEnumerable<string> GetByLevel(int level);
     }
 }
