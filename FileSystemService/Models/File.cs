@@ -4,9 +4,12 @@
     {
         public string Name { get; set; }
         public int Level { get; set; } = 0;
-        public File(string name)
+        public bool IsReadonly { get; set; }
+
+        public File(string name, bool isReadonly)
         {
             Name = name;
+            IsReadonly = isReadonly;
         }
 
         public int GetInnerItemsCount()

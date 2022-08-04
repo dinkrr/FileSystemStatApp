@@ -2,6 +2,7 @@
 using FileSystemStatsService.Repository;
 using FileSystemStatsService.Service;
 using System;
+using System.Collections;
 
 namespace FileSystemStatApp
 {
@@ -11,8 +12,7 @@ namespace FileSystemStatApp
         {
             IFileSystemStatCollector collector = new FileSystemStatCollector(new FileSystemDataRepository());
 
-            //Console.WriteLine(collector.Start("Folder1"));
-            foreach (var item in collector.GetUniqueNamesByLevel(2))
+            foreach (var item in collector.GetUniqueNamesBy(new string[] { "File1" }, true))
             {
                 Console.WriteLine(item);
             }

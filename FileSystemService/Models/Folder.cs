@@ -7,11 +7,13 @@ namespace FileSystemStatsService.Models
     {
         public string Name { get; set; }
         public int Level { get; set; } = 0;
+        public bool IsReadonly { get; set; }
         public List<IDirectoryItem> Items { get; set; }
 
-        public Folder(string name)
+        public Folder(string name, bool isReadonly)
         {
             Name = name;
+            IsReadonly = isReadonly;
             Items = new List<IDirectoryItem>();
         }
 
@@ -20,7 +22,7 @@ namespace FileSystemStatsService.Models
             if (!Items.Contains(item))
             {
                 item.Level++;
-                if(item is Folder)
+                if (item is Folder)
                     (item as Folder).Items.ForEach(x => x.Level++);
                 Items.Add(item);
             }
@@ -34,7 +36,7 @@ namespace FileSystemStatsService.Models
         public int GetInnerItemsCount()
         {
             int count = 0;
-            foreach(var item in Items)
+            foreach (var item in Items)
             {
                 count += item.GetInnerItemsCount();
             }

@@ -15,17 +15,17 @@ namespace FileSystemStatsService.Repository
 
         private void Setup()
         {
-            _rootDirectoryItem = new Folder("RootFolder");
-            Folder folder1 = new Folder("Folder1");
-            Folder folder2 = new Folder("Folder2");
-            File file1 = new File("File1");
-            File file2 = new File("File2");
+            _rootDirectoryItem = new Folder("RootFolder", false);
+            Folder folder1 = new Folder("Folder1", true);
+            Folder folder2 = new Folder("Folder2", false);
+            File file1 = new File("File1", true);
+            File file2 = new File("File2", true);
             folder1.AddItem(file1);
             folder1.AddItem(file2);
             folder1.AddItem(folder2);
 
-            Folder folder3 = new Folder("Folder3");
-            File file3 = new File("File3");
+            Folder folder3 = new Folder("Folder3", false);
+            File file3 = new File("File3", true);
             folder3.AddItem(file3);
 
             _rootDirectoryItem.AddItem(folder1);
@@ -81,6 +81,30 @@ namespace FileSystemStatsService.Repository
                     list.AddRange(FindItemNamesByLevel((Folder)item, level));
             }
             return list;
+        }
+
+        public IEnumerable<string> GetByFilter(IEnumerable<string> nameFilters, bool isReadonly)
+        {
+            return FindItemNamesByFilter(_rootDirectoryItem, nameFilters, isReadonly);
+        }
+
+        private IEnumerable<string> FindItemNamesByFilter(Folder rootDirectoryItem, IEnumerable<string> nameFilters, bool isReadonly)
+        {
+            List<string> nameByFilters = new List<string>();
+            var name = nameFilters.ToList();
+            if (name.Contains(rootDirectoryItem.Name) && rootDirectoryItem.IsReadonly == isReadonly)
+                nameByFilters.Add(rootDirectoryItem.Name);
+
+            foreach (IDirectoryItem item in rootDirectoryItem.Items)
+            {
+                if (name.Contains(item.Name) && item.IsReadonly == isReadonly)
+                {
+                    nameByFilters.Add(item.Name);
+                }
+                else if (item is Folder)
+                    nameByFilters.AddRange(FindItemNamesByFilter((Folder)item, nameFilters, isReadonly));
+            }
+            return nameByFilters;
         }
     }
 }

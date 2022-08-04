@@ -8,5 +8,6 @@ namespace FileSystemStatsService.Repository
         Folder GetRootItem();
         IDirectoryItem GetByName(string name);
         IEnumerable<string> GetByLevel(int level);
+        IEnumerable<string> GetByFilter(IEnumerable<string> nameFilter, bool isReadOnly);
     }
 }
