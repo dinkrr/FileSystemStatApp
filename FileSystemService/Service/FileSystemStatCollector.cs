@@ -3,6 +3,7 @@ using FileSystemStatsService.Models;
 using FileSystemStatsService.Repository;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FileSystemStatsService.Service
 {
@@ -18,7 +19,6 @@ namespace FileSystemStatsService.Service
         public int Start(string driveLetter)
         {
             var item = _repository.GetByName(driveLetter);
-            Console.WriteLine($"Level of " + item.Name + " is " + item.Level);
             if (item is Folder)
                 return item.GetInnerItemsCount();
             return 0;
@@ -31,7 +31,8 @@ namespace FileSystemStatsService.Service
 
         public IEnumerable<string> GetUniqueNamesByLevel(int level = 0)
         {
-            throw new NotImplementedException();
+            var items = _repository.GetByLevel(level);
+            return items?.Distinct();
         }
 
         public IEnumerable<string> GetUniqueNamesBy(IEnumerable<string> nameFilter, bool isReadOnly)

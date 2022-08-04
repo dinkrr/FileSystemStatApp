@@ -1,4 +1,5 @@
 ﻿using FileSystemStatsService.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -38,10 +39,10 @@ namespace FileSystemStatsService.Repository
 
         public IDirectoryItem GetByName(string name)
         {
-            return GetItem(_rootDirectoryItem, name);
+            return FindItemByName(_rootDirectoryItem, name);
         }
 
-        private IDirectoryItem GetItem(IDirectoryItem directoryItem, string name)
+        private IDirectoryItem FindItemByName(IDirectoryItem directoryItem, string name)
         {
             if (directoryItem.Name == name)
                 return directoryItem;
@@ -50,7 +51,7 @@ namespace FileSystemStatsService.Repository
                 var folderItem = directoryItem as Folder;
                 foreach (IDirectoryItem item in folderItem.Items)
                 {
-                    var innerItem = GetItem(item, name);
+                    var innerItem = FindItemByName(item, name);
                     if (innerItem != null)
                     {
                         return innerItem;
@@ -62,17 +63,23 @@ namespace FileSystemStatsService.Repository
 
         public IEnumerable<string> GetByLevel(int level)
         {
+            return FindItemNamesByLevel(_rootDirectoryItem, level);
+        }
+
+        private IEnumerable<string> FindItemNamesByLevel(Folder rootDirectoryItem, int level)
+        {
             List<string> list = new List<string>();
-            if (_rootDirectoryItem.Level == level)
-                list.Add(_rootDirectoryItem.Name);
-            _rootDirectoryItem.Items.ForEach(item =>
+            if (rootDirectoryItem.Level == level)
+                list.Add(rootDirectoryItem.Name);
+            foreach (IDirectoryItem item in rootDirectoryItem.Items)
             {
-                if(item.Level == level)
+                if (item.Level == level)
                 {
                     list.Add(item.Name);
                 }
-            });
-
+                else if (item is Folder)
+                    list.AddRange(FindItemNamesByLevel((Folder)item, level));
+            }
             return list;
         }
     }
