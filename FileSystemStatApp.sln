@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.32112.339
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32602.291
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSystemStatApp", "FileSystemStatApp\FileSystemStatApp.csproj", "{F6068A63-D21A-425F-AE4A-2D832980E015}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileSystemStatApp", "FileSystemStatApp\FileSystemStatApp.csproj", "{F6068A63-D21A-425F-AE4A-2D832980E015}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSystemStatsService", "FileSystemService\FileSystemStatsService.csproj", "{83964C85-A37D-4E27-A8A4-CBDFA0978BBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileSystemStatsService", "FileSystemService\FileSystemStatsService.csproj", "{83964C85-A37D-4E27-A8A4-CBDFA0978BBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSystemStatAppTests", "FileSystemStatAppTests\FileSystemStatAppTests.csproj", "{7AED5F13-9E55-4C60-B394-55A4DE9C0D7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileSystemStatsServiceTests", "FileSystemStatAppTests\FileSystemStatsServiceTests.csproj", "{7AED5F13-9E55-4C60-B394-55A4DE9C0D7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
